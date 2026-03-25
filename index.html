@@ -96,6 +96,79 @@
       color: var(--text);
     }
 
+    /* --- MOBILE NAV HAMBURGER --- */
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.25rem;
+      color: var(--text);
+    }
+
+    .nav-hamburger svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .nav-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(248, 243, 237, 0.97);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 200;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .nav-overlay.open {
+      display: flex;
+    }
+
+    .nav-overlay a {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.8rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-overlay a:hover {
+      color: var(--accent);
+    }
+
+    .nav-overlay-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .nav-overlay-close svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     /* --- HERO --- */
     .hero {
       min-height: 100vh;
@@ -581,15 +654,28 @@
       }
 
       .nav-links {
-        gap: 1.2rem;
+        display: none;
       }
 
-      .nav-links a {
-        font-size: 0.75rem;
+      .nav-hamburger {
+        display: block;
       }
 
       .hero {
         padding: 7rem 1.5rem 3rem;
+      }
+
+      .hero h1 {
+        font-size: clamp(1.8rem, 6vw, 2.4rem);
+      }
+
+      .hero-label {
+        flex-wrap: wrap;
+      }
+
+      .hero-label .lang {
+        margin-left: 0;
+        width: 100%;
       }
 
       section {
@@ -633,7 +719,21 @@
       <li><a href="#projects">Projects</a></li>
       <li><a href="mailto:raphaelhannaert@gmail.com">Contact</a></li>
     </ul>
+    <button class="nav-hamburger" onclick="document.getElementById('navOverlay').classList.add('open')">
+      <svg viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18" /></svg>
+    </button>
   </nav>
+
+  <!-- MOBILE NAV OVERLAY -->
+  <div class="nav-overlay" id="navOverlay">
+    <button class="nav-overlay-close" onclick="document.getElementById('navOverlay').classList.remove('open')">
+      <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" /></svg>
+    </button>
+    <a href="#background" onclick="document.getElementById('navOverlay').classList.remove('open')">Background</a>
+    <a href="#network" onclick="document.getElementById('navOverlay').classList.remove('open')">Network</a>
+    <a href="#projects" onclick="document.getElementById('navOverlay').classList.remove('open')">Projects</a>
+    <a href="mailto:raphaelhannaert@gmail.com">Contact</a>
+  </div>
 
   <!-- HERO -->
   <div class="hero">
@@ -836,8 +936,7 @@
         Motion is that missing layer. A long-term project I'm building gradually, since humanoids are still 5+ years
         away from 99.9% reliability.
       </p>
-      <p class="hero-footnote" style="margin-top: 0.2rem; margin-bottom: 0.5rem;">Fun fact: I have two humanoid robots
-        at home</p>
+      <p class="hero-footnote" style="margin-top: 0.2rem; margin-bottom: 0.5rem;">Fun fact: I have two humanoids at home</p>
       <div class="vis-item" style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border);">
         <img src="Screenshot 2026-03-24 at 21.41.32.png"
           alt="Many build humanoids. Nobody deploys them."
