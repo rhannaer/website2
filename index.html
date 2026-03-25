@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raphaël Hannaert</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Caveat:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F8F3ED;
+      --bg-card: #F1EBE3;
+      --text: #2C1E13;
+      --text-secondary: #7A6A5B;
+      --accent: #9B3A2A;
+      --accent-light: #C4553F;
+      --border: #DDD4C8;
+      --tag-bg: #E8DFD3;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* --- NAV --- */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.25rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(248, 243, 237, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+
+    nav.scrolled {
+      border-bottom-color: var(--border);
+    }
+
+    .nav-name {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.2rem;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    /* --- HERO --- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 2.5rem 4rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .hero-photo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1.5rem;
+      border: 2px solid var(--border);
+    }
+
+    .hero-intro {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-intro .hero-photo {
+      margin-bottom: 0;
+    }
+
+    .hero-name {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-footnote {
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      color: var(--accent);
+      margin-top: -0.2rem;
+      opacity: 0.85;
+      text-align: right;
+    }
+
+    .hero-strike {
+      position: relative;
+      display: inline;
+    }
+
+    .hero-strike .word {
+      position: relative;
+    }
+
+    .hero-strike .word::after {
+      content: '';
+      position: absolute;
+      left: -2px;
+      right: -2px;
+      top: 50%;
+      height: 2.5px;
+      background: var(--accent);
+      transform: rotate(-2deg);
+      border-radius: 2px;
+    }
+
+    .hero-strike .replacement {
+      font-family: 'Caveat', cursive;
+      color: var(--accent);
+      font-size: 1.5rem;
+      margin-left: 0.3rem;
+    }
+
+    .hero-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hero-label svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--text-secondary);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .hero-label .lang {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hero h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+      line-height: 1.15;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 540px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .hero-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding-bottom: 2px;
+      border-bottom: 1.5px solid var(--border);
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .hero-links a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* --- SECTION SHARED --- */
+    section {
+      padding: 6rem 2.5rem;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+      line-height: 1.2;
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    /* --- DIVIDER --- */
+    .divider {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+    }
+
+    .divider hr {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* --- PROJECTS --- */
+    .project {
+      margin-bottom: 5rem;
+    }
+
+    .project:last-child {
+      margin-bottom: 0;
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .project-name {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    .project-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.35rem 0.75rem;
+      border-radius: 2px;
+      background: var(--tag-bg);
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .tag.claude {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .project-description {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      transition: gap 0.2s;
+    }
+
+    .project-link:hover {
+      gap: 0.7rem;
+    }
+
+    .project-link svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .project-visuals {
+      display: grid;
+      gap: 1rem;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .project-visuals.single {
+      grid-template-columns: 1fr;
+    }
+
+    .project-visuals.triple {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+    }
+
+    .project-visuals.triple .vis-item:first-child {
+      grid-column: 1 / -1;
+    }
+
+    .vis-item {
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+    }
+
+    .vis-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .seedly-frame {
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #fff;
+      position: relative;
+    }
+
+    .seedly-frame .browser-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1rem;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .browser-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+
+    .browser-url {
+      flex: 1;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      background: var(--bg);
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+    }
+
+    .seedly-frame iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      display: block;
+    }
+
+    /* --- BACKGROUND --- */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 2rem;
+      padding: 1.5rem 0;
+      border-top: 1px solid var(--border);
+      align-items: baseline;
+    }
+
+    .timeline-date {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      font-weight: 500;
+      padding-top: 0.1rem;
+    }
+
+    .timeline-content h3 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-content p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .timeline-detail {
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-top: 0.15rem;
+    }
+
+    /* --- NETWORK --- */
+    .network-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .network-card {
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg-card);
+    }
+
+    .network-card h3 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+
+    .network-card p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .stat {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.8rem;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      padding: 4rem 2.5rem 3rem;
+      max-width: 1080px;
+      margin: 0 auto;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .footer-name {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.2rem;
+    }
+
+    .footer-detail {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .footer-right {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-right a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .footer-right a:hover {
+      color: var(--accent);
+    }
+
+    /* --- ANIMATIONS --- */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 768px) {
+      nav {
+        padding: 1rem 1.5rem;
+      }
+
+      .nav-links {
+        gap: 1.2rem;
+      }
+
+      .nav-links a {
+        font-size: 0.75rem;
+      }
+
+      .hero {
+        padding: 7rem 1.5rem 3rem;
+      }
+
+      section {
+        padding: 4rem 1.5rem;
+      }
+
+      .divider {
+        padding: 0 1.5rem;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+
+      .project-visuals.triple {
+        grid-template-columns: 1fr;
+      }
+
+      footer {
+        padding: 3rem 1.5rem 2rem;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .seedly-frame iframe {
+        height: 320px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#" class="nav-name">Raphaël Hannaert</a>
+    <ul class="nav-links">
+      <li><a href="#background">Background</a></li>
+      <li><a href="#network">Network</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="mailto:raphaelhannaert@gmail.com">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-intro">
+      <img src="team-raph.png" alt="Raphaël Hannaert" class="hero-photo">
+      <span class="hero-name">Raphaël Hannaert</span>
+    </div>
+    <p class="hero-label">
+      <svg viewBox="0 0 16 16">
+        <path d="M8 1.5C5 1.5 2.5 4 2.5 7c0 4.5 5.5 7.5 5.5 7.5s5.5-3 5.5-7.5c0-3-2.5-5.5-5.5-5.5z" />
+        <circle cx="8" cy="7" r="2" />
+      </svg>
+      Brussels &amp; Lisbon
+      <span class="lang">
+        <svg viewBox="0 0 16 16">
+          <circle cx="8" cy="8" r="6.5" />
+          <path d="M1.5 8h13M8 1.5c-2 2.5-2 10 0 13M8 1.5c2 2.5 2 10 0 13" />
+        </svg>
+        French, English &amp; Portuguese
+      </span>
+    </p>
+    <h1>I write term sheets and push commits. Usually on the <em>same day</em><span
+        style="color: var(--accent);">.</span></h1>
+    <p class="hero-sub">
+      Principal at a European VC. Former McKinsey. Engineer by training. Strong believer that the best way to understand
+      founders is to be one. So I <span class="hero-strike"><span class="word">build</span><span class="replacement">get
+          Opus 4.6 to build things for me.</span></span>
+    </p>
+    <div class="hero-links">
+      <a href="mailto:raphaelhannaert@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/raphael-hhh/" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+
+  <div class="divider">
+    <hr>
+  </div>
+
+  <!-- BACKGROUND -->
+  <section id="background">
+    <p class="section-label">Background</p>
+    <h2 class="section-title">Where I've <em>been</em></h2>
+
+    <div class="timeline">
+      <div class="timeline-item fade-in">
+        <div class="timeline-date">2022 — Present</div>
+        <div class="timeline-content">
+          <h3>Principal — Tioga Capital</h3>
+          <p>European early-stage VC, €200M across two funds. Investment team of four. Focused on crypto, robotics, and
+            AI.</p>
+          <p class="timeline-detail">See <a href="#network" style="color: var(--accent);">Network</a> below for relevant
+            details</p>
+        </div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-date">2019 — 2022</div>
+        <div class="timeline-content">
+          <h3>Associate — McKinsey & Company</h3>
+          <p>Offices in Europe and South East Asia. Strategy and due diligence for financial institutions. Product & IT
+            transformation.</p>
+          <p class="timeline-detail">Rated distinctive — top 5%</p>
+        </div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-date">2017 — 2018</div>
+        <div class="timeline-content">
+          <h3>Co-founder</h3>
+          <p>Built and launched a consumer app for housemate matching. Stopped this to focus on crypto.</p>
+        </div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-date">2017 — 2018</div>
+        <div class="timeline-content">
+          <h3>Intern — Bitcoin Center Korea</h3>
+          <p>Blockchain research and education in Seoul. Early immersion in the crypto ecosystem.</p>
+        </div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-date">2016 — 2018</div>
+        <div class="timeline-content">
+          <h3>MSc Engineering — TU Delft</h3>
+          <p>Engineering & Management of Technology. Honor Student (top 5%). Exchange at Seoul National University.</p>
+        </div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-date">2013 — 2016</div>
+        <div class="timeline-content">
+          <h3>BSc Engineering — University of Brussels</h3>
+          <p>GPA 84%. Graduated Magna Cum Laude, ranked 8th out of 400 (top 2%).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">
+    <hr>
+  </div>
+
+  <!-- NETWORK -->
+  <section id="network">
+    <p class="section-label">Network</p>
+    <h2 class="section-title">Why I'm relevant for a <em>Startup Partnerships</em> role</h2>
+
+    <div class="network-grid">
+      <div class="network-card fade-in">
+        <span class="stat">1,000+</span>
+        <h3>Portfolio founders</h3>
+        <p>Direct contact with over 1,000 portfolio founders. Spoken with more than 3,000 founders over my years as a VC
+          — sourcing, advising, and building alongside them.</p>
+      </div>
+      <div class="network-card fade-in">
+        <span class="stat">100+</span>
+        <h3>VC relationships</h3>
+        <p>Direct contact with 100+ VCs across Europe. Indirect access to virtually any fund on the continent through
+          co-investment networks and deal flow partnerships.</p>
+      </div>
+      <div class="network-card fade-in">
+        <span class="stat">Up to 99%</span>
+        <h3>Industry coverage</h3>
+        <p>Through indirect connections, I'm less than one degree away from 99% of the crypto space, 50% of robotics,
+          and 20% of broader AI. This means I can ask for a direct intro to a vast universe of startups across these
+          fields.</p>
+      </div>
+      <div class="network-card fade-in">
+        <span class="stat">30+</span>
+        <h3>Incubators & accelerators</h3>
+        <p>Active participant in builder pop-up cities, builder residencies, and startup programmes across Europe.
+          Embedded in the communities where founders go from idea to product.</p>
+      </div>
+      <div class="network-card fade-in">
+        <span class="stat">3</span>
+        <h3>Key industries</h3>
+        <p>Deep domain expertise in crypto, robotics, and AI. Able to go relatively deep with startups across these
+          categories, with a good overview of the market landscape and key projects.</p>
+      </div>
+      <div class="network-card fade-in">
+        <span class="stat">5</span>
+        <h3>Main hubs</h3>
+        <p>London, Paris, Brussels, Lisbon, and Singapore. Spent more than 3 months in each over the past 3 years,
+          deepening my network across these major cities.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">
+    <hr>
+  </div>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label">Projects</p>
+    <h2 class="section-title">Things I've <em>built</em></h2>
+
+    <!-- Seedly -->
+    <div class="project fade-in">
+      <div class="project-header">
+        <h3 class="project-name">Seedly</h3>
+        <div class="project-tags">
+          <span class="tag">Crowdfunding platform</span>
+          <span class="tag">Non-profit</span>
+          <span class="tag claude">Built with Claude</span>
+        </div>
+      </div>
+      <p class="project-description">
+        A crowdfunding platform for brick-and-mortar venues. Neighbours back cafés, bakeries, and shops before they open
+        — and become their first regulars. Fully functional with payments, campaigns, and a backer dashboard. Built as a
+        non-profit (1% fee covers operational costs). Built solo, then handed off to my sisters for business
+        development.
+      </p>
+      <a href="https://seedly.brussels" target="_blank" class="project-link">
+        Visit seedly.brussels
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 13L13 3M13 3H6M13 3v7" />
+        </svg>
+      </a>
+      <div class="seedly-frame">
+        <div class="browser-bar">
+          <span class="browser-dot"></span>
+          <span class="browser-dot"></span>
+          <span class="browser-dot"></span>
+          <span class="browser-url">seedly.brussels</span>
+        </div>
+        <iframe src="https://seedly.brussels" loading="lazy" title="Seedly"></iframe>
+      </div>
+    </div>
+
+    <!-- Motion -->
+    <div class="project fade-in">
+      <div class="project-header">
+        <h3 class="project-name">Motion</h3>
+        <div class="project-tags">
+          <span class="tag">Humanoid Robotics</span>
+          <span class="tag">Hobby</span>
+          <span class="tag claude">Built with Claude</span>
+        </div>
+      </div>
+      <p class="project-description">
+        A deployment platform for humanoid robots. Over 100 companies build the hardware and $5B+ has flowed into
+        foundation models — but nobody solves the last mile: getting robots into real factories, stores, and warehouses.
+        Motion is that missing layer. A long-term project I'm building gradually, since humanoids are still 5+ years
+        away from 99.9% reliability.
+      </p>
+      <p class="hero-footnote" style="margin-top: 0.2rem; margin-bottom: 0.5rem;">Fun fact: I have two humanoid robots
+        at home</p>
+      <div class="vis-item" style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border);">
+        <img src="Screenshot 2026-03-24 at 21.41.32.png"
+          alt="Many build humanoids. Nobody deploys them."
+          style="width: 100%; height: auto; display: block;">
+      </div>
+    </div>
+
+    <!-- Erwin -->
+    <div class="project fade-in">
+      <div class="project-header">
+        <h3 class="project-name">Erwin</h3>
+        <div class="project-tags">
+          <span class="tag">Portfolio Management</span>
+          <span class="tag">Personal use</span>
+          <span class="tag claude">Built with Claude</span>
+        </div>
+      </div>
+      <p class="project-description">
+        A personal portfolio management dashboard aggregating positions across European brokers and crypto platforms.
+        Real-time P&L, allocation views, and performance tracking — built because nothing on the market connected all
+        the accounts I needed.
+      </p>
+      <div class="vis-item" style="border-radius: 6px; overflow: hidden; border: 1px solid var(--border);">
+        <img src="Screenshot 2026-03-25 at 22.45.48.png"
+          alt="Erwin portfolio dashboard — crypto, stocks, ETFs, DeFi yield tracking"
+          style="width: 100%; height: auto; display: block;">
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">
+      <span class="footer-name">Raphaël Hannaert</span>
+      <span class="footer-detail">Brussels & Lisbon · French, English & Portuguese</span>
+    </div>
+    <div class="footer-right">
+      <a href="mailto:raphaelhannaert@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/raphael-hhh/" target="_blank">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script>
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+
+</html>
